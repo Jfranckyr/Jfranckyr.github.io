@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Ops — Offre</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #141414;
+    --surface2: #1c1c1c;
+    --border: #2a2a2a;
+    --accent: #ff4d2e;
+    --accent2: #ff8c6b;
+    --text: #f0ece4;
+    --muted: #7a756e;
+    --gold: #c9a84c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(255,77,46,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .badge {
+    display: inline-block;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.4rem 1.2rem;
+    border-radius: 100px;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s ease forwards;
+    opacity: 0;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s ease 0.1s forwards;
+    opacity: 0;
+  }
+
+  .hero h1 span {
+    color: var(--accent);
+    display: block;
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0 auto 3rem;
+    animation: fadeUp 0.6s ease 0.2s forwards;
+    opacity: 0;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 0.6s ease 0.3s forwards;
+    opacity: 0;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(255,77,46,0.35);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 1rem 2.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--muted);
+    color: var(--text);
+  }
+
+  /* STATS BAR */
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .stat {
+    flex: 1;
+    max-width: 220px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    border-right: 1px solid var(--border);
+  }
+
+  .stat:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 2.2rem;
+    color: var(--accent);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.3rem;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 6rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  /* PROBLEM */
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .problem-item {
+    background: var(--surface);
+    padding: 2rem;
+    position: relative;
+  }
+
+  .problem-item::before {
+    content: '✗';
+    color: var(--accent);
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.8rem;
+  }
+
+  .problem-item h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .problem-item p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* PRICING */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 768px) {
+    .pricing-grid { grid-template-columns: 1fr; }
+    .stats { flex-wrap: wrap; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+
+  .plan {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2.5rem 2rem;
+    position: relative;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .plan:hover {
+    border-color: var(--muted);
+    transform: translateY(-4px);
+  }
+
+  .plan.featured {
+    border-color: var(--accent);
+    background: var(--surface2);
+  }
+
+  .plan.featured:hover {
+    border-color: var(--accent2);
+  }
+
+  .plan-tag {
+    position: absolute;
+    top: -1px;
+    right: 2rem;
+    background: var(--accent);
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border-radius: 0 0 6px 6px;
+  }
+
+  .plan-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .plan-price {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 3rem;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .plan-price sup {
+    font-size: 1.2rem;
+    vertical-align: super;
+    font-weight: 600;
+  }
+
+  .plan-period {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .plan-tagline {
+    font-size: 0.88rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.4;
+  }
+
+  .plan-features {
+    list-style: none;
+    margin-bottom: 2.5rem;
+  }
+
+  .plan-features li {
+    font-size: 0.88rem;
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    color: #c8c4bc;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .plan-features li:last-child { border-bottom: none; }
+
+  .plan-features li::before {
+    content: '→';
+    color: var(--accent);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  .plan-features li.muted {
+    color: var(--muted);
+    opacity: 0.5;
+  }
+
+  .plan-features li.muted::before {
+    content: '—';
+    color: var(--muted);
+  }
+
+  .plan-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.9rem;
+    border-radius: 4px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+
+  .plan-btn-outline {
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+  }
+
+  .plan-btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .plan-btn-fill {
+    background: var(--accent);
+    color: white;
+  }
+
+  .plan-btn-fill:hover {
+    background: #e0422a;
+    box-shadow: 0 6px 24px rgba(255,77,46,0.3);
+  }
+
+  .plan-btn-gold {
+    border: 1px solid var(--gold);
+    background: transparent;
+    color: var(--gold);
+  }
+
+  .plan-btn-gold:hover {
+    background: rgba(201,168,76,0.08);
+  }
+
+  /* PROCESS */
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+    position: relative;
+  }
+
+  .step {
+    position: relative;
+    padding-top: 1rem;
+  }
+
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 3.5rem;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .step h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+
+  .step p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* FAQ */
+  .faq-list {
+    margin-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 0;
+  }
+
+  .faq-q {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.7rem;
+    color: var(--text);
+  }
+
+  .faq-a {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 640px;
+  }
+
+  /* CTA FINAL */
+  .cta-final {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-align: center;
+    padding: 5rem 3rem;
+    position: relative;
+    overflow: hidden;
+    margin: 0 2rem 6rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-final::before {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(255,77,46,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-final h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .cta-final p {
+    color: var(--muted);
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* GUARANTEE */
+  .guarantee {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 1.5rem;
+  }
+
+  .guarantee-icon {
+    font-size: 1.3rem;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 0 2rem;
+  }
+
+  .highlight { color: var(--accent); }
+  .highlight-gold { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="badge">Dashboard Ops CRM</span>
+  <h1>Pilote tes deals.<br><span>Arrête de perdre du temps.</span></h1>
+  <p class="hero-sub">Un dashboard opérationnel qui répond en 2 minutes aux 4 questions critiques de ton équipe commerciale — chaque matin.</p>
+  <div class="hero-cta">
+    <a href="#pricing" class="btn-primary">Voir les offres</a>
+    <a href="#process" class="btn-ghost">Comment ça marche</a>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <span class="stat-num">2 min</span>
+    <span class="stat-label">Briefing quotidien</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">9</span>
+    <span class="stat-label">Blocs de pilotage</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">0</span>
+    <span class="stat-label">Deal oublié</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">3</span>
+    <span class="stat-label">Offres disponibles</span>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section>
+  <p class="section-label">Le problème</p>
+  <h2 class="section-title">Ton CRM est plein.<br>Ton pipeline, lui, est flou.</h2>
+  <div class="problem-grid">
+    <div class="problem-item">
+      <h3>Deals sans suivi</h3>
+      <p>Des leads entrent, mais personne ne sait où ils en sont. Les "prochaines actions" n'existent pas.</p>
+    </div>
+    <div class="problem-item">
+      <h3>Réunions sans structure</h3>
+      <p>Le point du matin dure 45 minutes et ne produit aucune décision claire sur qui fait quoi.</p>
+    </div>
+    <div class="problem-item">
+      <h3>Actions en retard invisibles</h3>
+      <p>Les overdue s'accumulent en silence. Personne ne les voit jusqu'à ce qu'un deal soit perdu.</p>
+    </div>
+    <div class="problem-item">
+      <h3>Données CRM non fiables</h3>
+      <p>Doublons, stages incorrects, contacts sans email — ton CRM te ment et tu le sais.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRICING -->
+<section id="pricing">
+  <p class="section-label">Les offres</p>
+  <h2 class="section-title">Choisis ton niveau<br>d'accompagnement.</h2>
+
+  <div class="pricing-grid">
+
+    <!-- STARTER -->
+    <div class="plan">
+      <p class="plan-name">Starter</p>
+      <div class="plan-price"><sup>€</sup>97</div>
+      <p class="plan-period">paiement unique</p>
+      <p class="plan-tagline">Tu t'installes toi-même, avec un guide complet pas à pas.</p>
+      <ul class="plan-features">
+        <li>Template Dashboard Ops complet (Notion ou Airtable)</li>
+        <li>Guide de configuration PDF (12 pages)</li>
+        <li>Les 9 blocs préconfigurés</li>
+        <li>Filtres & tris prêts à l'emploi</li>
+        <li>Accès aux mises à jour futures</li>
+        <li class="muted">Installation par nos soins</li>
+        <li class="muted">Formation équipe</li>
+        <li class="muted">Support dédié</li>
+      </ul>
+      <a href="#contact" class="plan-btn plan-btn-outline">Obtenir le template</a>
+    </div>
+
+    <!-- SETUP -->
+    <div class="plan featured">
+      <span class="plan-tag">⚡ Populaire</span>
+      <p class="plan-name">Setup Pro</p>
+      <div class="plan-price"><sup>€</sup>490</div>
+      <p class="plan-period">paiement unique</p>
+      <p class="plan-tagline">On installe tout pour toi sur ton espace en moins de 48h.</p>
+      <ul class="plan-features">
+        <li>Tout le contenu Starter inclus</li>
+        <li>Installation complète sur ton Notion / Airtable</li>
+        <li>Adaptation à ta base de données existante</li>
+        <li>Personnalisation des colonnes & stages</li>
+        <li>Call de livraison (45 min) + walkthrough</li>
+        <li>Support email 30 jours post-livraison</li>
+        <li class="muted">Formation équipe complète</li>
+        <li class="muted">Suivi mensuel</li>
+      </ul>
+      <a href="#contact" class="plan-btn plan-btn-fill">Démarrer le setup</a>
+    </div>
+
+    <!-- FULL -->
+    <div class="plan">
+      <p class="plan-name"><span class="highlight-gold">Accompagnement</span></p>
+      <div class="plan-price" style="font-size:2rem; padding-top:0.4rem;">Sur devis</div>
+      <p class="plan-period">mensuel ou forfait</p>
+      <p class="plan-tagline">Setup + formation équipe + pilotage Ops sur la durée.</p>
+      <ul class="plan-features">
+        <li>Tout le contenu Setup Pro inclus</li>
+        <li>Formation de toute l'équipe (jusqu'à 10 pers.)</li>
+        <li>Rituel hebdomadaire de pilotage (1h/sem)</li>
+        <li>Audit CRM mensuel + recommandations</li>
+        <li>Ajustement du dashboard selon l'évolution</li>
+        <li>Accès WhatsApp / Slack direct</li>
+        <li>Rapport mensuel de performance commerciale</li>
+        <li>Priorité sur les nouvelles fonctionnalités</li>
+      </ul>
+      <a href="#contact" class="plan-btn plan-btn-gold">Demander un devis</a>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROCESS -->
+<section id="process">
+  <p class="section-label">Le processus</p>
+  <h2 class="section-title">De zéro à opérationnel<br>en 48h.</h2>
+  <div class="process-steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Tu choisis ton offre</h3>
+      <p>Template seul, setup complet ou accompagnement — selon ton niveau de besoin et ton équipe.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>On audite ta base</h3>
+      <p>Un questionnaire rapide pour comprendre ta structure de données, tes stages, tes KPIs actuels.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Installation & config</h3>
+      <p>Le dashboard est déployé, les 9 blocs configurés avec tes vraies données. Aucune saisie manuelle.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Livraison & formation</h3>
+      <p>Call de 45 min pour te montrer comment lire chaque bloc et animer le point du matin.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FAQ -->
+<section>
+  <p class="section-label">FAQ</p>
+  <h2 class="section-title">Questions fréquentes.</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <p class="faq-q">Ça fonctionne avec quel outil ?</p>
+      <p class="faq-a">Le Dashboard Ops est disponible pour Notion et Airtable. Si tu utilises un autre CRM, contacte-nous — certaines adaptations sont possibles sur HubSpot et Monday.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Je pars de zéro, pas de CRM existant. C'est possible ?</p>
+      <p class="faq-a">Oui, c'est même le cas idéal. On installe le dashboard sur une base vierge et on t'explique comment structurer tes données dès le départ. Tu n'auras pas à corriger de mauvaises habitudes.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Combien de temps avant que mon équipe soit autonome ?</p>
+      <p class="faq-a">En général, 1 semaine suffit pour que l'équipe comprenne le rythme quotidien. Le dashboard est conçu pour être lisible sans formation prolongée — c'est son principal avantage.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Quelle est la différence entre Setup Pro et Accompagnement ?</p>
+      <p class="faq-a">Le Setup Pro est une prestation ponctuelle : on installe et on livre. L'Accompagnement est un suivi continu avec des rituels hebdomadaires, un audit mensuel et un accès direct. C'est pour les équipes qui veulent aller plus loin dans la performance commerciale.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Y a-t-il une garantie ?</p>
+      <p class="faq-a">Pour les offres Starter et Setup Pro, on offre un remboursement intégral dans les 7 jours si le dashboard ne correspond pas à ce qui a été présenté. Aucune question posée.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<div class="cta-final">
+  <h2>Prêt à voir clair<br>dans ton pipeline ?</h2>
+  <p>Rejoins les équipes qui pilotent leur CRM en moins de 2 minutes par matin.</p>
+  <a href="#pricing" class="btn-primary">Choisir mon offre</a>
+  <div class="guarantee">
+    <span class="guarantee-icon">🛡️</span>
+    <span>Garantie remboursement 7 jours · Livraison en 48h · Support inclus</span>
+  </div>
+</div>
+
+</body>
+</html>
