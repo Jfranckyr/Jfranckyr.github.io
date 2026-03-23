@@ -453,7 +453,7 @@ footer span { color:var(--gold); }
           <div style="width:40px;height:40px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem;">📧</div>
           <div>
             <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:0.2rem;">Email</div>
-            <a href="mailto:jfranckyr@gmail.com" style="font-size:0.92rem;color:var(--accent);text-decoration:none;font-weight:500;">jfranckyr@gmail.com</a>
+            <a href="/cdn-cgi/l/email-protection#6d070b1f0c030e06141f2d0a000c0401430e0200" style="font-size:0.92rem;color:var(--accent);text-decoration:none;font-weight:500;"><span class="__cf_email__" data-cfemail="87ede1f5e6e9e4ecfef5c7e0eae6eeeba9e4e8ea">[email&#160;protected]</span></a>
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:1rem;">
@@ -473,65 +473,60 @@ footer span { color:var(--gold); }
       </div>
     </div>
 
-    <!-- Formulaire droite -->
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:2.5rem;" id="contact-form-wrap">
+    <!-- Formulaire droite — Formspree -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:2.5rem;">
       <div id="form-view">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
-          <div>
-            <label style="display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;">Prénom *</label>
-            <input id="cf-prenom" type="text" placeholder="Jean" style="width:100%;padding:0.75rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='#b08d4a'" onblur="this.style.borderColor='#e2dcd4'">
+        <form id="fs-form">
+          <input type="hidden" name="_subject" value="Nouvelle demande de contact — Site CRM">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+            <div>
+              <label style="display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;">Prénom *</label>
+              <input name="prenom" type="text" placeholder="Jean" required style="width:100%;padding:0.75rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;" onfocus="this.style.borderColor='#b08d4a'" onblur="this.style.borderColor='#e2dcd4'">
+            </div>
+            <div>
+              <label style="display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;">Nom *</label>
+              <input name="nom" type="text" placeholder="Dupont" required style="width:100%;padding:0.75rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;" onfocus="this.style.borderColor='#b08d4a'" onblur="this.style.borderColor='#e2dcd4'">
+            </div>
           </div>
-          <div>
-            <label style="display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;">Nom *</label>
-            <input id="cf-nom" type="text" placeholder="Dupont" style="width:100%;padding:0.75rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='#b08d4a'" onblur="this.style.borderColor='#e2dcd4'">
+          <div style="margin-bottom:1rem;">
+            <label style="display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;">Email *</label>
+            <input name="email" type="email" placeholder="jean@entreprise.com" required style="width:100%;padding:0.75rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;" onfocus="this.style.borderColor='#b08d4a'" onblur="this.style.borderColor='#e2dcd4'">
           </div>
-        </div>
-        <div style="margin-bottom:1rem;">
-          <label style="display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;">Email *</label>
-          <input id="cf-email" type="email" placeholder="jean@entreprise.com" style="width:100%;padding:0.75rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='#b08d4a'" onblur="this.style.borderColor='#e2dcd4'">
-        </div>
-        <div style="margin-bottom:1rem;">
-          <label style="display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;">Votre CRM actuel</label>
-          <select id="cf-crm" style="width:100%;padding:0.75rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;appearance:none;cursor:pointer;" onfocus="this.style.borderColor='#b08d4a'" onblur="this.style.borderColor='#e2dcd4'">
-            <option value="">-- Sélectionner --</option>
-            <option>HubSpot</option>
-            <option>Notion</option>
-            <option>Airtable</option>
-            <option>Salesforce</option>
-            <option>Pipedrive</option>
-            <option>Monday</option>
-            <option>Excel / Google Sheets</option>
-            <option>Pas encore de CRM</option>
-            <option>Autre</option>
-          </select>
-        </div>
-        <div style="margin-bottom:1rem;">
-          <label style="display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;">Formule souhaitée</label>
-          <select id="cf-formule" style="width:100%;padding:0.75rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;appearance:none;cursor:pointer;" onfocus="this.style.borderColor='#b08d4a'" onblur="this.style.borderColor='#e2dcd4'">
-            <option value="">-- Sélectionner --</option>
-            <option>CRM Rescue — à partir de 220 €</option>
-            <option>CRM Essential — à partir de 390 € / mois</option>
-            <option>CRM Pilotage — à partir de 530 € / mois</option>
-            <option>CRM Ops Manager — à partir de 860 € / mois</option>
-            <option>Je ne sais pas encore</option>
-          </select>
-        </div>
-        <div style="margin-bottom:1.5rem;">
-          <label style="display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;">Votre besoin principal *</label>
-          <textarea id="cf-message" rows="4" placeholder="Décrivez votre situation actuelle, vos difficultés et votre objectif principal..." style="width:100%;padding:0.75rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;resize:vertical;line-height:1.6;transition:border-color 0.2s;" onfocus="this.style.borderColor='#b08d4a'" onblur="this.style.borderColor='#e2dcd4'"></textarea>
-        </div>
-        <button onclick="envoyerContact()" style="width:100%;padding:1rem;background:var(--accent);color:white;border:none;border-radius:4px;font-family:'Outfit',sans-serif;font-weight:600;font-size:0.95rem;cursor:pointer;transition:all 0.2s;letter-spacing:0.03em;" onmouseover="this.style.background='#2d6147'" onmouseout="this.style.background='#1a3a2a'">
-          Envoyer ma demande →
-        </button>
-        <p id="form-error" style="color:#c0392b;font-size:0.8rem;margin-top:0.6rem;display:none;text-align:center;"></p>
-        <p style="font-size:0.75rem;color:var(--muted);text-align:center;margin-top:1rem;">✦ Sans engagement · Réponse sous 24h</p>
+          <div style="margin-bottom:1rem;">
+            <label style="display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;">Votre CRM actuel</label>
+            <select name="crm" style="width:100%;padding:0.75rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;appearance:none;cursor:pointer;" onfocus="this.style.borderColor='#b08d4a'" onblur="this.style.borderColor='#e2dcd4'">
+              <option value="">-- Sélectionner --</option>
+              <option>HubSpot</option><option>Notion</option><option>Airtable</option>
+              <option>Salesforce</option><option>Pipedrive</option><option>Monday</option>
+              <option>Excel / Google Sheets</option><option>Pas encore de CRM</option><option>Autre</option>
+            </select>
+          </div>
+          <div style="margin-bottom:1rem;">
+            <label style="display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;">Formule souhaitée</label>
+            <select name="formule" style="width:100%;padding:0.75rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;appearance:none;cursor:pointer;" onfocus="this.style.borderColor='#b08d4a'" onblur="this.style.borderColor='#e2dcd4'">
+              <option value="">-- Sélectionner --</option>
+              <option>CRM Rescue — à partir de 220 €</option>
+              <option>CRM Essential — à partir de 390 € / mois</option>
+              <option>CRM Pilotage — à partir de 530 € / mois</option>
+              <option>CRM Ops Manager — à partir de 860 € / mois</option>
+              <option>Je ne sais pas encore</option>
+            </select>
+          </div>
+          <div style="margin-bottom:1.5rem;">
+            <label style="display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;">Votre besoin principal *</label>
+            <textarea name="message" rows="4" placeholder="Décrivez votre situation actuelle, vos difficultés et votre objectif principal..." required style="width:100%;padding:0.75rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;background:var(--bg);color:var(--text);outline:none;resize:vertical;line-height:1.6;" onfocus="this.style.borderColor='#b08d4a'" onblur="this.style.borderColor='#e2dcd4'"></textarea>
+          </div>
+          <button type="submit" id="submit-btn" style="width:100%;padding:1rem;background:var(--accent);color:white;border:none;border-radius:4px;font-family:'Outfit',sans-serif;font-weight:600;font-size:0.95rem;cursor:pointer;transition:all 0.2s;letter-spacing:0.03em;" onmouseover="this.style.background='#2d6147'" onmouseout="this.style.background='#1a3a2a'">
+            Envoyer ma demande →
+          </button>
+          <p id="form-error" style="color:#c0392b;font-size:0.8rem;margin-top:0.6rem;display:none;text-align:center;"></p>
+          <p style="font-size:0.75rem;color:var(--muted);text-align:center;margin-top:1rem;">✦ Sans engagement · Réponse sous 24h · Formule sur mesure</p>
+        </form>
       </div>
-
-      <!-- Message de confirmation -->
       <div id="form-success" style="display:none;text-align:center;padding:2rem 1rem;">
         <div style="font-size:3rem;margin-bottom:1rem;">✅</div>
         <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent);margin-bottom:0.8rem;">Message envoyé !</h3>
-        <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;">Merci pour votre message. Je reviendrai vers vous sous 24h avec une proposition adaptée à votre besoin.</p>
+        <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;">Merci pour votre message. Francky vous répondra sous 24h avec une proposition adaptée.</p>
       </div>
     </div>
 
@@ -539,39 +534,35 @@ footer span { color:var(--gold); }
 </section>
 
 <script>
-function envoyerContact() {
-  const prenom = document.getElementById('cf-prenom').value.trim();
-  const nom = document.getElementById('cf-nom').value.trim();
-  const email = document.getElementById('cf-email').value.trim();
-  const message = document.getElementById('cf-message').value.trim();
+document.getElementById('fs-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
   const errEl = document.getElementById('form-error');
-
-  if (!prenom || !nom || !email || !message) {
-    errEl.textContent = '⚠️ Veuillez remplir tous les champs obligatoires (*)';
+  btn.textContent = 'Envoi en cours...';
+  btn.disabled = true;
+  try {
+    const res = await fetch('https://formspree.io/f/xdawrjzw', {
+      method: 'POST',
+      body: new FormData(this),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      document.getElementById('form-view').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+    } else {
+      errEl.textContent = '⚠️ Une erreur est survenue. Veuillez réessayer.';
+      errEl.style.display = 'block';
+      btn.textContent = 'Envoyer ma demande →';
+      btn.disabled = false;
+    }
+  } catch(err) {
+    errEl.textContent = '⚠️ Connexion impossible. Vérifiez votre connexion internet.';
     errEl.style.display = 'block';
-    return;
+    btn.textContent = 'Envoyer ma demande →';
+    btn.disabled = false;
   }
-  if (!email.includes('@')) {
-    errEl.textContent = '⚠️ Veuillez entrer une adresse email valide.';
-    errEl.style.display = 'block';
-    return;
-  }
-  errEl.style.display = 'none';
-
-  const crm = document.getElementById('cf-crm').value;
-  const formule = document.getElementById('cf-formule').value;
-  const sujet = encodeURIComponent(`Demande de contact — ${prenom} ${nom}`);
-  const corps = encodeURIComponent(
-    `Bonjour Francky,\n\nNom : ${prenom} ${nom}\nEmail : ${email}\nCRM actuel : ${crm || 'Non précisé'}\nFormule souhaitée : ${formule || 'Non précisée'}\n\nBesoin :\n${message}\n\nCordialement,\n${prenom} ${nom}`
-  );
-  window.location.href = `mailto:jfranckyr@gmail.com?subject=${sujet}&body=${corps}`;
-
-  setTimeout(() => {
-    document.getElementById('form-view').style.display = 'none';
-    document.getElementById('form-success').style.display = 'block';
-  }, 800);
-}
+});
 </script>
 
-<footer>
-  <p>© 2026 <span>Francky Rakotondrasoa</span> — Freelance CRM & Ops · Remote · <span><a href="/cdn-c
+</body>
+</html>
